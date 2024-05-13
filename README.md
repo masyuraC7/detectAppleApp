@@ -1,4 +1,4 @@
-Apple Detection (Fresh / Stale) With YOLOv8 and Flask
+<h1>Apple Detection (Fresh / Stale) With YOLOv8 and Flask</h1>
 
 Library Used:
 1. Flask
