@@ -33,6 +33,19 @@
             display: none;
             /* Initially hide the live video */
         }
+
+        #team .member .pic {
+            height: auto;
+            max-height: 260px;
+        }
+
+        #team .member .pic .emoji {
+            font-style: normal;
+            font-size: 150px;
+            line-height: 1;
+            display: block;
+            transform: rotate(0deg);
+        }
     </style>
 </head>
 
@@ -308,7 +321,7 @@
         </div>
     </div>
 
-    <!-- logo carousel -->
+    <!-- Company Logo Carousel -->
     <div class="logo-carousel-section">
         <div class="container">
             <div class="row">
@@ -335,24 +348,25 @@
         </div>
     </div>
     </div>
-    <!-- end logo carousel -->
+    <!-- end Company Logo Carousel -->
 
     <!-- Team Section -->
     <section id="team">
         <div class="container wow fadeInUp">
             <div class="section-header">
                 <h3 class="section-title">Team</h3>
-                <p class="section-description">Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-                    accusantium doloremque</p>
+                <p class="section-description">
+                    Our team is composed of talented and dedicated professionals, each
+                    bringing their unique expertise to drive our success. Get to know the individuals who make our
+                    company thrive
+                </p>
             </div>
-            <div class="row">
+            <div class="row mt-5">
                 <div class="col-lg-4 col-md-6">
                     <div class="member">
-                        <div class="pic"><img class="rounded-circle"
-                                src="{{ url_for('static', filename='assets/imgs/company-logos/4.png') }}" alt="">
-                        </div>
-                        <h4>Walter White</h4>
-                        <span>Chief Executive Officer</span>
+                        <div class="pic"><span class="emoji">👨‍💻</span></div>
+                        <h4> Bagus Dwi Prasetya</h4>
+                        <span>Modeling & Evaluation</span>
                         <div class="social">
                             <a href=""><i class="fa fa-whatsapp"></i></a>
                             <a href=""><i class="fa fa-facebook"></i></a>
@@ -364,11 +378,9 @@
 
                 <div class="col-lg-4 col-md-6">
                     <div class="member">
-                        <div class="pic"><img class="rounded-circle"
-                                src="{{ url_for('static', filename='assets/imgs/company-logos/4.png') }}" alt="">
-                        </div>
-                        <h4>Sarah Jhinson</h4>
-                        <span>Product Manager</span>
+                        <div class="pic"><span class="emoji">👩‍💻</span></div>
+                        <h4> Risma Dwi Zulianti</h4>
+                        <span>Data Aqusition</span>
                         <div class="social">
                             <a href=""><i class="fa fa-whatsapp"></i></a>
                             <a href=""><i class="fa fa-facebook"></i></a>
@@ -380,59 +392,64 @@
 
                 <div class="col-lg-4 col-md-6">
                     <div class="member">
-                        <div class="pic"><img class="rounded-circle"
-                                src="{{ url_for('static', filename='assets/imgs/company-logos/4.png') }}" alt="">
-                        </div>
-                        <h4>William Anderson</h4>
-                        <span>CTO</span>
+                        <div class="pic"><span class="emoji">👩‍💻</span></div>
+                        <h4>Natasya Nur Hadiyanti</h4>
+                        <span>Modeling & Evaluation</span>
                         <div class="social">
                             <a href=""><i class="fa fa-whatsapp"></i></a>
                             <a href=""><i class="fa fa-facebook"></i></a>
                             <a href=""><i class="fa fa-google-plus"></i></a>
                             <a href=""><i class="fa fa-linkedin"></i></a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row justify-content-center">
-                    <div class="col-lg-4 col-md-6">
-                        <div class="member">
-                            <div class="pic"><img class="rounded-circle"
-                                    src="{{ url_for('static', filename='assets/imgs/company-logos/4.png') }}" alt="">
-                            </div>
-                            <h4>Amanda Jepson</h4>
-                            <span>Accountant</span>
-                            <div class="social">
-                                <a href=""><i class="fa fa-whatsapp"></i></a>
-                                <a href=""><i class="fa fa-facebook"></i></a>
-                                <a href=""><i class="fa fa-google-plus"></i></a>
-                                <a href=""><i class="fa fa-linkedin"></i></a>
-                            </div>
-                        </div>
-                    </div>
-
-
-                    <div class="col-lg-4 col-md-6">
-                        <div class="member">
-                            <div class="pic"><img class="rounded-circle"
-                                    src="{{ url_for('static', filename='assets/imgs/company-logos/4.png') }}" alt="">
-                            </div>
-                            <h4>Amanda Jepson</h4>
-                            <span>Accountant</span>
-                            <div class="social">
-                                <a href=""><i class="fa fa-whatsapp"></i></a>
-                                <a href=""><i class="fa fa-facebook"></i></a>
-                                <a href=""><i class="fa fa-google-plus"></i></a>
-                                <a href=""><i class="fa fa-linkedin"></i></a>
-                            </div>
                         </div>
                     </div>
                 </div>
             </div>
 
+            <div class="row justify-content-center">
+                <div class="col-lg-4 col-md-6">
+                    <div class="member">
+                        <div class="pic"><span class="emoji">👩‍💻</span></div>
+                        <h4>Dellya Dievha</h4>
+                        <span>Data Exploration</span>
+                        <div class="social">
+                            <a href=""><i class="fa fa-whatsapp"></i></a>
+                            <a href=""><i class="fa fa-facebook"></i></a>
+                            <a href=""><i class="fa fa-google-plus"></i></a>
+                            <a href=""><i class="fa fa-linkedin"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6">
+                    <div class="member">
+                        <div class="pic"><span class="emoji">👨‍💻</span></div>
+                        <h4>Satria Dioufan Artha Desanta</h4>
+                        <span>UI/UX Designer</span>
+                        <div class="social">
+                            <a href=""><i class="fa fa-whatsapp"></i></a>
+                            <a href=""><i class="fa fa-facebook"></i></a>
+                            <a href=""><i class="fa fa-google-plus"></i></a>
+                            <a href=""><i class="fa fa-linkedin"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="member">
+                        <div class="pic"><span class="emoji">👨‍💻</span></div>
+                        <h4> Masyura Fanni R.</h4>
+                        <span>Deployment</span>
+                        <div class="social">
+                            <a href=""><i class="fa fa-whatsapp"></i></a>
+                            <a href=""><i class="fa fa-facebook"></i></a>
+                            <a href=""><i class="fa fa-google-plus"></i></a>
+                            <a href=""><i class="fa fa-linkedin"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
-    <!-- #team -->
+    <!-- end team section -->
 
     <!-- Contact Section -->
     <section id="contact" class="section has-img-bg pb-0">
@@ -456,7 +473,7 @@
                                 <ul>
                                     <li>Suarabaya, Jawa Timur</li>
                                     <li>aquadating@gmail.com</li>
-                                    <li>+62 111 222 3333</li>
+                                    <li>+62 1111 2222 3333</li>
                                 </ul>
                             </div>
                         </div>
@@ -465,10 +482,10 @@
                                 <h2 class="widget-title">Pages</h2>
                                 <ul>
                                     <li><a href="#home">Home</a></li>
-                                    <li><a href="#service">About</a></li>
+                                    <li><a href="#AboutUs">AboutUs</a></li>
+                                    <li><a href="#service">Our Service</a></li>
                                     <li><a href="#aplikasi">Aplikasi</a></li>
                                     <li><a href="#team">Team</a></li>
-                                    <li><a href="#contact">Contact</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -476,14 +493,12 @@
                             <div class="footer-box subscribe">
                                 <h2 class="widget-title">Subscribe</h2>
                                 <p>Subscribe to our mailing list to get the latest updates.</p>
-
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
             <!-- end footer -->
-
 
             <!-- Page Footer -->
             <footer class="mt-5 py-4 border-top border-secondary">
@@ -492,16 +507,14 @@
                     <div class="container">
                         <div class="row">
                             <div class="col-lg-6 col-md-12">
-                                <p>Copyrights &copy; 2019 - <a href="https://imransdesign.com/">Imran Hossain</a>, All
+                                <p>Copyrights &copy; 2024 - <a href="#">Across Borders</a>, All
                                     Rights Reserved.</p>
                             </div>
-
                         </div>
                     </div>
                 </div>
                 <!-- end copyright -->
             </footer>
-
             <!-- End of Page Footer -->
         </div>
     </section>
@@ -529,7 +542,7 @@
             })
 
             function imagePathController(item, index) {
-                downloadImgText += "<input name='img_results[]' type='hidden' value='"+item+"'>"
+                downloadImgText += "<input name='img_results[]' type='hidden' value='" + item + "'>"
                 text += "<div class='col-md-6'><div class='img-container text-center'><img class='img-fluid' style='max-height: 400px;'src='" + item + "' alt='Results" + index + "'></div></div>";
             }
 
@@ -561,7 +574,7 @@
                             var images = data['img_results']
                             images.forEach(imagePathController);
                             // Apple Counting
-                            text += "<div class='col-md-6'><div class='ml-2'><p>Jumlah Gambar: " + data['n_images'] + "</p><p>Jumlah Fresh Apple: " + data['fa_apple'] + "</p><p>Jumlah Stale Apple: " + data['sa_apple'] + "</p><p>Total Apple: " + data['n_apple'] + "</p> <form id='formDownloadPred' action='{{ url_for('predict_download') }}' method='post'>"+downloadImgText+"<button class='btn btn-success' type='submit'>Download Prediction Results</button></form></div></div>"
+                            text += "<div class='col-md-6'><div class='ml-2'><p>Jumlah Gambar: " + data['n_images'] + "</p><p>Jumlah Fresh Apple: " + data['fa_apple'] + "</p><p>Jumlah Stale Apple: " + data['sa_apple'] + "</p><p>Total Apple: " + data['n_apple'] + "</p> <form id='formDownloadPred' action='{{ url_for('predict_download') }}' method='post'>" + downloadImgText + "<button class='btn btn-success' type='submit'>Download Prediction Results</button></form></div></div>"
                             // Write text to modal
                             domModal.innerHTML = text;
                             $("#btnImgSubmit").addClass("hidden");
