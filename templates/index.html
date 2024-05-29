@@ -193,7 +193,9 @@
     <section id="aplikasi" class="section portfolio-section">
         <div class="container">
             <h6 class="section-title text-center">Our Project</h6>
-            <h6 class="section-subtitle mb-5 text-center">New stunning projects for our amazing clients</h6>
+            <h6 class="section-subtitle mb-5 text-center">
+                Object Detection - Apple Detection (Fresh / Stale)
+            </h6>
             <div class="container">
                 <div class="row">
                     <div class="col-md-6">
@@ -235,8 +237,8 @@
                                     <h4>Upload your apple image</h4>
                                     <div class="row mt-2">
                                         <div class="col-md-12">
-                                            <input name="images[]" class="form-control" type="file"
-                                                id="formFileMultiple" accept="image/*" required multiple>
+                                            <input name="images[]" class="form-control" type="file" id="imagesInput"
+                                                accept="image/*" required multiple>
                                         </div>
                                         <div class="col-md-12 mt-3">
                                             <button type="submit" class="btn btn-primary" id="btnImgSubmit">
@@ -254,6 +256,7 @@
                                                 Predict Results
                                             </button>
                                         </div>
+                                        <div class="col-md-12 mt-3" id="alertNotify"></div>
                                     </div>
                                 </form>
                             </div>
@@ -275,7 +278,15 @@
     </section>
     <!-- End of Aplikasi section -->
 
-    <!-- Modal -->
+    <div id="alertSuccess" class="alert alert-success alert-dismissible fade" role="alert">
+        <strong>Prediction success!</strong> Check on the Predict Results
+        Button!.
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+    <!-- Modal Image Prediction Results -->
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
         <div class="modal-dialog modal-xl" role="document">
@@ -291,7 +302,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
+                    <button id="btnDownloadConnect" type="button" class="btn btn-primary">Download Results</button>
                 </div>
             </div>
         </div>
@@ -510,9 +521,22 @@
     <script>
         $(document).ready(function (e) {
             let text = ""
+            let downloadImgText = ""
 
-            function myFunction(item, index) {
-                text += "<div class='col-md-6'><div class='img-container'><img class='img-fluid' style='max-height: 600px;'src='" + item + "' alt='Results" + index + "'></div></div>";
+            $("#btnDownloadConnect").click(function (e) {
+                e.preventDefault();
+                $("#formDownloadPred").submit();
+            })
+
+            function imagePathController(item, index) {
+                downloadImgText += "<input name='img_results[]' type='hidden' value='"+item+"'>"
+                text += "<div class='col-md-6'><div class='img-container text-center'><img class='img-fluid' style='max-height: 400px;'src='" + item + "' alt='Results" + index + "'></div></div>";
+            }
+
+            function cloneSuccessAlert() {
+                let cloneAlert = document.getElementById('alertSuccess').cloneNode(true);
+                cloneAlert.id = "alertSuccessClone";
+                document.getElementById('alertNotify').appendChild(cloneAlert);
             }
 
             $("#formImgPred").submit(function (e) {
@@ -535,27 +559,33 @@
                         if (data['success'] == true) {
                             var domModal = document.getElementById('modalBodyImgPred');
                             var images = data['img_results']
-                            images.forEach(myFunction);
+                            images.forEach(imagePathController);
                             // Apple Counting
-                            text += "<div class='col-md-6'><p>Jumlah Gambar: " + data['n_images'] + "</p><p>Jumlah Fresh Apple: " + data['fa_apple'] + "</p><p>Jumlah Stale Apple: " + data['sa_apple'] + "</p><p>Total Apple: " + data['n_apple'] + "</p></div>"
+                            text += "<div class='col-md-6'><div class='ml-2'><p>Jumlah Gambar: " + data['n_images'] + "</p><p>Jumlah Fresh Apple: " + data['fa_apple'] + "</p><p>Jumlah Stale Apple: " + data['sa_apple'] + "</p><p>Total Apple: " + data['n_apple'] + "</p> <form id='formDownloadPred' action='{{ url_for('predict_download') }}' method='post'>"+downloadImgText+"<button class='btn btn-success' type='submit'>Download Prediction Results</button></form></div></div>"
                             // Write text to modal
                             domModal.innerHTML = text;
                             $("#btnImgSubmit").addClass("hidden");
                             $("#btnPredResults").removeClass("hidden")
+                            $("#imagesInput").attr("disabled", true);
+                            cloneSuccessAlert()
+                            $('#alertSuccessClone').addClass("show")
                         } else {
                             alert(data['error']);
                         }
                     },
                     error: function (data) {
-                        console.log(data);
+                        alert("Something Wrong!" + data);
                     }
                 });
             });
 
             $('#btnResetImgPred').click(function (e) {
                 text = ""
+                downloadImgText = ""
                 $("#btnPredResults").addClass("hidden");
                 $("#btnImgSubmit").removeClass("hidden");
+                $("#imagesInput").attr("disabled", false);
+                $("#alertSuccessClone").alert('close');
             });
 
             $('#myModal').on('shown.bs.modal', function () {
@@ -571,7 +601,7 @@
                     document.getElementById("live-video").src = response.url; // Set the live video source
                 });
             });
-            
+
         });
     </script>
 </body>

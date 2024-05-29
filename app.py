@@ -4,12 +4,12 @@ import cv2
 import os
 from PIL import Image
 import datetime
-import matplotlib.pyplot as plt
-import numpy as np
-import base64
-from io import BytesIO
+# import matplotlib.pyplot as plt
+# import numpy as np
+# import base64
+# from io import BytesIO
 from function import download_zip
-import threading
+# import threading
 
 app = Flask(__name__)
 app.static_folder = 'static'
@@ -17,9 +17,9 @@ app.static_folder = 'static'
 # Load the YOLOv8 model
 model = YOLO(r'best.pt')
 
-camera = None  #  camera globally
-lock = threading.Lock()  # Lock to handle camera access
-is_running = False  # Flag to control the camera
+# camera = None  #  camera globally
+# lock = threading.Lock()  # Lock to handle camera access
+# is_running = False  # Flag to control the camera
 
 @app.route("/")
 def home():
@@ -95,8 +95,8 @@ def index():
 
         # Membuat plot
         # Generate random data for two categories
-        category1 = np.random.normal(loc=0, scale=1, size=1000)
-        category2 = np.random.normal(loc=3, scale=1.5, size=1000)
+        # category1 = np.random.normal(loc=0, scale=1, size=1000)
+        # category2 = np.random.normal(loc=3, scale=1.5, size=1000)
 
         # Create histogram for category 1
         # fig, ax = plt.subplots()
@@ -131,8 +131,21 @@ def index():
             }
         return jsonify(message)
     else:
-        return "get"
-        return redirect('/')
+        message = {
+                'success': False,
+                'error': "You don't have access with this page!"
+            }
+        return jsonify(message)
+    
+@app.route('/predict_download', methods=['POST'])
+def predict_download():
+    file_list = request.form.getlist('img_results[]')
+
+    zs = []
+    for file in file_list:
+        zs.append(file)
+
+    return download_zip(zs)
     
 @app.route('/vidpred', methods=['GET', 'POST'])
 def upload_video():
@@ -179,43 +192,33 @@ def video_feed():
         return Response(generate_frames(video_path), mimetype='multipart/x-mixed-replace; boundary=frame')
     else:
         return 'Error: No video file provided.'
-    
-@app.route('/predict_download', methods=['POST'])
-def predict_download():
-    file_list = request.form.getlist('img_results[]')
 
-    zs = []
-    for file in file_list:
-        zs.append(file)
+# @app.route('/live_feed')
+# def live_feed():
+#     return Response(generate_live_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
 
-    return download_zip(zs)
+# def generate_live_frames():
+#     cap = cv2.VideoCapture(1)  # 0 represents the default webcam
 
-@app.route('/live_feed')
-def live_feed():
-    return Response(generate_live_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
+#     while True:
+#         success, frame = cap.read()
 
-def generate_live_frames():
-    cap = cv2.VideoCapture(1)  # 0 represents the default webcam
+#         if success:
+#             # Perform prediction on the frame using your YOLO model
+#             results = model(frame)
+#             annotated_frame = results[0].plot()
 
-    while True:
-        success, frame = cap.read()
+#             # Convert the annotated frame to JPEG format
+#             ret, buffer = cv2.imencode('.jpg', annotated_frame)
+#             frame_bytes = buffer.tobytes()
 
-        if success:
-            # Perform prediction on the frame using your YOLO model
-            results = model(frame)
-            annotated_frame = results[0].plot()
+#             # Yield the frame bytes as part of the response
+#             yield (b'--frame\r\n'
+#                    b'Content-Type: image/jpeg\r\n\r\n' + frame_bytes + b'\r\n')
+#         else:
+#             break
 
-            # Convert the annotated frame to JPEG format
-            ret, buffer = cv2.imencode('.jpg', annotated_frame)
-            frame_bytes = buffer.tobytes()
-
-            # Yield the frame bytes as part of the response
-            yield (b'--frame\r\n'
-                   b'Content-Type: image/jpeg\r\n\r\n' + frame_bytes + b'\r\n')
-        else:
-            break
-
-    cap.release()
+#     cap.release()
 
 # @app.route('/start_camera', methods=['POST'])
 # def start_camera():
