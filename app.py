@@ -4,12 +4,8 @@ import cv2
 import os
 from PIL import Image
 import datetime
-# import matplotlib.pyplot as plt
-# import numpy as np
-# import base64
-# from io import BytesIO
 from function import download_zip
-# import threading
+import threading
 
 app = Flask(__name__)
 app.static_folder = 'static'
@@ -17,14 +13,15 @@ app.static_folder = 'static'
 # Load the YOLOv8 model
 model = YOLO(r'best.pt')
 
-# camera = None  #  camera globally
-# lock = threading.Lock()  # Lock to handle camera access
-# is_running = False  # Flag to control the camera
+camera = None  #  camera globally
+lock = threading.Lock()  # Lock to handle camera access
+is_running = False  # Flag to control the camera
 
 @app.route("/")
 def home():
     return render_template("index.html")
 
+# for image detection
 @app.route('/imgpred', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
@@ -93,34 +90,6 @@ def index():
                 # Remove the uploaded image
                 os.remove(image_path)
 
-        # Membuat plot
-        # Generate random data for two categories
-        # category1 = np.random.normal(loc=0, scale=1, size=1000)
-        # category2 = np.random.normal(loc=3, scale=1.5, size=1000)
-
-        # Create histogram for category 1
-        # fig, ax = plt.subplots()
-        # ax.hist(category1, bins=30, color='blue', alpha=0.5, label='Category 1')
-
-        # # Create histogram for category 2
-        # ax.hist(category2, bins=30, color='red', alpha=0.5, label='Category 2')
-
-        # ax.set_title('Histogram with Two Categories')
-        # ax.set_xlabel('Value')
-        # ax.set_ylabel('Frequency')
-        # ax.legend()
-
-        # # Menyimpan plot ke dalam string base64
-        # img = BytesIO()
-        # fig.savefig(img, format='png')
-        # img.seek(0)
-        plot_data = 0
-        # plot_data = base64.b64encode(img.getvalue()).decode()
-        # plt.close(fig)
-
-        # Render the HTML template with the result image path
-        # return render_template('index.html', plot_data=plot_data, 
-        # img_results=img_results, image_path=result_image_path, n_apple=n_apple, n_images=n_images, fa_apple=fa_apple, sa_apple=sa_apple)
         message = {
                 'success': True,
                 'img_results': img_results,
@@ -146,7 +115,8 @@ def predict_download():
         zs.append(file)
 
     return download_zip(zs)
-    
+
+# for video detection
 @app.route('/vidpred', methods=['GET', 'POST'])
 def upload_video():
     if request.method == 'POST':
@@ -184,50 +154,64 @@ def generate_frames(video_path):
 
     cap.release()
 
+# for realtime detection
 @app.route('/video_feed')
 def video_feed():
-    video_path = request.args.get('video_path', None)
-    
-    if video_path:
-        return Response(generate_frames(video_path), mimetype='multipart/x-mixed-replace; boundary=frame')
-    else:
-        return 'Error: No video file provided.'
+    return Response(gen_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
 
-# @app.route('/live_feed')
-# def live_feed():
-#     return Response(generate_live_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
+#fungsi deteksi camera real time 
+def gen_frames():
+    global camera, is_running
+    while is_running:
+        with lock:
+            if camera is None or not camera.isOpened():
+                continue
+            success, frame = camera.read()
+        if not success:
+            continue
+        else:
+            # Perform object detection
+            results = model(frame)
+            detections = results[0].boxes  # Access the detections
 
-# def generate_live_frames():
-#     cap = cv2.VideoCapture(1)  # 0 represents the default webcam
+            # Draw bounding boxes on the frame
+            for box in detections:  # Iterate through detections
+                x1, y1, x2, y2 = map(int, box.xyxy[0])  # Get bounding box coordinates
+                conf = box.conf[0]  # Confidence score
+                cls = int(box.cls[0])  # Class label
+                label = f'{model.names[cls]} {conf:.2f}'
 
-#     while True:
-#         success, frame = cap.read()
+                cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 255, 0), 2)
+                cv2.putText(frame, label, (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.9, (36, 255, 12), 2)
 
-#         if success:
-#             # Perform prediction on the frame using your YOLO model
-#             results = model(frame)
-#             annotated_frame = results[0].plot()
+            # Encode frame to JPEG
+            ret, buffer = cv2.imencode('.jpg', frame)
+            if not ret:
+                continue
+            frame = buffer.tobytes()
 
-#             # Convert the annotated frame to JPEG format
-#             ret, buffer = cv2.imencode('.jpg', annotated_frame)
-#             frame_bytes = buffer.tobytes()
+            # Yield the output frame in byte format
+            yield (b'--frame\r\n'
+                   b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
 
-#             # Yield the frame bytes as part of the response
-#             yield (b'--frame\r\n'
-#                    b'Content-Type: image/jpeg\r\n\r\n' + frame_bytes + b'\r\n')
-#         else:
-#             break
+@app.route('/start_camera', methods=['POST'])
+def start_camera():
+    global camera, is_running
+    with lock:
+        if camera is None or not camera.isOpened():
+            camera = cv2.VideoCapture(0)
+        is_running = True
+    return '', 204
 
-#     cap.release()
-
-# @app.route('/start_camera', methods=['POST'])
-# def start_camera():
-#     global camera, is_running
-#     with lock:
-#         if camera is None or not camera.isOpened():
-#             camera = cv2.VideoCapture(0)
-#         is_running = True
-#     return '', 204
+@app.route('/stop_camera', methods=['POST'])
+def stop_camera():
+    global camera, is_running
+    with lock:
+        if camera is not None and camera.isOpened():
+            camera.release()
+            camera = None
+        is_running = False
+    return '', 204
 
 if __name__ == "__main__":
     #app.run(debug=True)

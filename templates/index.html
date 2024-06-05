@@ -22,16 +22,16 @@
             display: none;
         }
 
-        #video-container {
+        .video-container {
             width: 100%;
             margin: auto;
         }
 
-        #live-video {
+        .live-feed{
             width: 100%;
             height: auto;
-            display: none;
-            /* Initially hide the live video */
+            max-height: 400px;
+            object-fit: contain;
         }
 
         #team .member .pic {
@@ -276,11 +276,20 @@
                             <div role="tabpanel" class="tab-pane" id="tab-02">
                                 <p>Sementara tidak tersedia (masih bingung perlu ditambah atau tidak)</p>
                             </div>
+                            <!-- realtime detection -->
                             <div role="tabpanel" class="tab-pane" id="tab-03">
-                                <div id="video-container">
-                                    <img id="live-video" src="" alt="Live Video Feed">
+                                <h4>Directly Detect Apple With Your Camera</h4>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <img class="live-feed hidden" id="video-feed1" src="{{ url_for('static', filename='assets/imgs/header.jpg') }}" alt="Real time camera">
+                                        <div id="videoLiveFeed" class="video-container"></div>
+                                    </div>
+                                    <hr>
+                                    <div class="col-md-12 mt-4">
+                                        <button id="btnStartCamera" class="btn btn-primary">Start Camera</button>
+                                        <button id="btnStopCamera" class="btn btn-danger">Stop Camera</button>
+                                    </div>
                                 </div>
-                                <button id="start-feed">Start Live Feed</button> <!-- Button to start the live feed -->
                             </div>
                         </div>
                     </div>
@@ -531,92 +540,9 @@
 
     <!-- LeadMark js -->
     <script src="{{ url_for('static', filename='assets/js/leadmark.js') }}"></script>
-    <script>
-        $(document).ready(function (e) {
-            let text = ""
-            let downloadImgText = ""
 
-            $("#btnDownloadConnect").click(function (e) {
-                e.preventDefault();
-                $("#formDownloadPred").submit();
-            })
-
-            function imagePathController(item, index) {
-                downloadImgText += "<input name='img_results[]' type='hidden' value='" + item + "'>"
-                text += "<div class='col-md-6'><div class='img-container text-center'><img class='img-fluid' style='max-height: 400px;'src='" + item + "' alt='Results" + index + "'></div></div>";
-            }
-
-            function cloneSuccessAlert() {
-                let cloneAlert = document.getElementById('alertSuccess').cloneNode(true);
-                cloneAlert.id = "alertSuccessClone";
-                document.getElementById('alertNotify').appendChild(cloneAlert);
-            }
-
-            $("#formImgPred").submit(function (e) {
-                e.preventDefault();
-                if (text != "") {
-                    text = ""
-                    $("#btnPredResults").addClass("hidden");
-                }
-
-                var urlPred = $("#formImgPred").attr("action")
-
-                $.ajax({
-                    url: urlPred,
-                    type: "POST",
-                    data: new FormData(this),
-                    cache: false,
-                    processData: false,
-                    contentType: false,
-                    success: function (data) {
-                        if (data['success'] == true) {
-                            var domModal = document.getElementById('modalBodyImgPred');
-                            var images = data['img_results']
-                            images.forEach(imagePathController);
-                            // Apple Counting
-                            text += "<div class='col-md-6'><div class='ml-2'><p>Jumlah Gambar: " + data['n_images'] + "</p><p>Jumlah Fresh Apple: " + data['fa_apple'] + "</p><p>Jumlah Stale Apple: " + data['sa_apple'] + "</p><p>Total Apple: " + data['n_apple'] + "</p> <form id='formDownloadPred' action='{{ url_for('predict_download') }}' method='post'>" + downloadImgText + "<button class='btn btn-success' type='submit'>Download Prediction Results</button></form></div></div>"
-                            // Write text to modal
-                            domModal.innerHTML = text;
-                            $("#btnImgSubmit").addClass("hidden");
-                            $("#btnPredResults").removeClass("hidden")
-                            $("#imagesInput").attr("disabled", true);
-                            cloneSuccessAlert()
-                            $('#alertSuccessClone').addClass("show")
-                        } else {
-                            alert(data['error']);
-                        }
-                    },
-                    error: function (data) {
-                        alert("Something Wrong!" + data);
-                    }
-                });
-            });
-
-            $('#btnResetImgPred').click(function (e) {
-                text = ""
-                downloadImgText = ""
-                $("#btnPredResults").addClass("hidden");
-                $("#btnImgSubmit").removeClass("hidden");
-                $("#imagesInput").attr("disabled", false);
-                $("#alertSuccessClone").alert('close');
-            });
-
-            $('#myModal').on('shown.bs.modal', function () {
-                $('#myInput').focus()
-            })
-
-            // live feed
-            $("#start-feed").click(function (e) {
-                e.preventDefault();
-                $("#live-video").css("display", "block");
-                $("#start-feed").css("display", "none");
-                fetch("/live_feed").then(response => {
-                    document.getElementById("live-video").src = response.url; // Set the live video source
-                });
-            });
-
-        });
-    </script>
+    <!-- function.js -->
+    <script src="{{ url_for('static', filename='assets/js/function.js') }}"></script>
 </body>
 
 </html>
