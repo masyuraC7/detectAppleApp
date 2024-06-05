@@ -179,6 +179,11 @@ def gen_frames():
                 x1, y1, x2, y2 = map(int, box.xyxy[0])  # Get bounding box coordinates
                 conf = box.conf[0]  # Confidence score
                 cls = int(box.cls[0])  # Class label
+                if cls == 0:
+                    cv2.putText(frame, "Fresh Apple: 1 | Stale Apple: 0", (10, 450), cv2.FONT_HERSHEY_COMPLEX_SMALL, 0.9, (36, 255, 12), 2)
+                
+                if cls == 1:
+                    cv2.putText(frame, "Fresh Apple: 0 | Stale Apple: 1", (10, 450), cv2.FONT_HERSHEY_COMPLEX_SMALL, 0.9, (36, 255, 12), 2)
                 label = f'{model.names[cls]} {conf:.2f}'
 
                 cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 255, 0), 2)
