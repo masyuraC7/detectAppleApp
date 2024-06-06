@@ -5,8 +5,9 @@ Library Used:
 2. Ultralytics
 
 Features:
-1. Apple Detection with Image (Single / Multiple Image)
-2. Apple Counting
+1. Apple Detection with Image (Single / Multiple)
+2. Realtime Apple Detection With Camera
+3. Apple Counting
 
 Team:
 1. BAGUS DWI PRASETYA
