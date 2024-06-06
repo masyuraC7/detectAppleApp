@@ -27,7 +27,7 @@
             margin: auto;
         }
 
-        .live-feed{
+        .live-feed {
             width: 100%;
             height: auto;
             max-height: 400px;
@@ -72,7 +72,7 @@
                         <a class="nav-link" href="#AboutUs">AboutUs</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#service">Our Service</a>
+                        <a class="nav-link" href="#service">Service</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#aplikasi">Aplikasi</a>
@@ -215,13 +215,11 @@
                         <h5>Apple Object Detection (Fresh / Stale)</h5>
                         <h5>Features: </h5>
                         <ul>
-                            <li>Object Detection With Image Upload(Can Multiple Image) <i
-                                    class="bi-check-lg text-success"></i>
-                            </li>
-                            <li>Display Object Detection Results <i class="bi-check-lg text-success"></i></li>
-                            <li>Download Object Detection Results <i class="bi-check-lg text-success"></i></li>
-                            <li>Apple Counting <i class="bi-check-lg text-success"></i></li>
-                            <li>Design Web Interface <i class="bi-x-lg text-danger"></i></li>
+                            <li>Object Detection With Image Upload(Single / Multiple)</li>
+                            <li>Display Image Object Detection Results</li>
+                            <li>Download Image Object Detection Results <i class="bi-check-lg text-success"></i></li>
+                            <li>Realtime Object Detection With Camera</li>
+                            <li>Apple Counting</i></li>
                         </ul>
                     </div>
                     <div class="col-md-6">
@@ -232,11 +230,6 @@
                                     With Image
                                 </a>
                             </li>
-                            <!-- <li role="presentation" class="nav-item">
-                                <a href="#tab-02" class="nav-link" aria-controls="tab-02" role="tab" data-toggle="tab">
-                                    With Video
-                                </a>
-                            </li> -->
                             <li role="presentation" class="nav-item">
                                 <a href="#tab-03" class="nav-link" aria-controls="tab-03" role="tab" data-toggle="tab">
                                     With Live Camera
@@ -273,15 +266,14 @@
                                     </div>
                                 </form>
                             </div>
-                            <!-- <div role="tabpanel" class="tab-pane" id="tab-02">
-                                <p>Sementara tidak tersedia (masih bingung perlu ditambah atau tidak)</p>
-                            </div> -->
                             <!-- realtime detection -->
                             <div role="tabpanel" class="tab-pane" id="tab-03">
                                 <h4>Directly Detect Apple With Your Camera</h4>
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <img class="live-feed hidden" id="video-feed1" src="{{ url_for('static', filename='assets/imgs/header.jpg') }}" alt="Real time camera">
+                                        <img class="live-feed hidden" id="video-feed1"
+                                            src="{{ url_for('static', filename='assets/imgs/header.jpg') }}"
+                                            alt="Real time camera">
                                         <div id="videoLiveFeed" class="video-container"></div>
                                     </div>
                                     <hr>
@@ -363,8 +355,8 @@
     <section id="team">
         <div class="container wow fadeInUp">
             <div class="section-header">
-                <h3 class="section-title">Team</h3>
-                <p class="section-description">
+                <h3 class="section-title text-center">Our Team</h3>
+                <p class="section-description text-center">
                     Our team is composed of talented and dedicated professionals, each
                     bringing their unique expertise to drive our success. Get to know the individuals who make our
                     company thrive
@@ -490,11 +482,21 @@
                             <div class="footer-box pages">
                                 <h2 class="widget-title">Pages</h2>
                                 <ul>
-                                    <li><a href="#home">Home</a></li>
-                                    <li><a href="#AboutUs">AboutUs</a></li>
-                                    <li><a href="#service">Our Service</a></li>
-                                    <li><a href="#aplikasi">Aplikasi</a></li>
-                                    <li><a href="#team">Team</a></li>
+                                    <li class="smooth">
+                                        <a class="smooth-link" href="#home">Home</a>
+                                    </li>
+                                    <li class="smooth">
+                                        <a class="smooth-link" href="#AboutUs">AboutUs</a>
+                                    </li>
+                                    <li class="smooth">
+                                        <a class="smooth-link" href="#service">Service</a>
+                                    </li>
+                                    <li class="smooth">
+                                        <a class="smooth-link" href="#aplikasi">Aplikasi</a>
+                                    </li>
+                                    <li class="smooth">
+                                        <a class="smooth-link" href="#team">Team</a>
+                                    </li>
                                 </ul>
                             </div>
                         </div>
