@@ -12,6 +12,8 @@ app.static_folder = 'static'
 
 # Load the YOLOv8 model
 model = YOLO(r'best.pt')
+fresh_apple = 0
+stale_apple = 0
 
 camera = None  #  camera globally
 lock = threading.Lock()  # Lock to handle camera access
@@ -161,7 +163,7 @@ def video_feed():
 
 #fungsi deteksi camera real time 
 def gen_frames():
-    global camera, is_running
+    global camera, is_running, fresh_apple, stale_apple
     while is_running:
         with lock:
             if camera is None or not camera.isOpened():
@@ -179,13 +181,15 @@ def gen_frames():
                 x1, y1, x2, y2 = map(int, box.xyxy[0])  # Get bounding box coordinates
                 conf = box.conf[0]  # Confidence score
                 cls = int(box.cls[0])  # Class label
-                if cls == 0:
-                    cv2.putText(frame, "Fresh Apple: 1 | Stale Apple: 0", (10, 450), cv2.FONT_HERSHEY_COMPLEX_SMALL, 0.9, (36, 255, 12), 2)
-                
-                if cls == 1:
-                    cv2.putText(frame, "Fresh Apple: 0 | Stale Apple: 1", (10, 450), cv2.FONT_HERSHEY_COMPLEX_SMALL, 0.9, (36, 255, 12), 2)
                 label = f'{model.names[cls]} {conf:.2f}'
 
+                if cls == 0:
+                    fresh_apple += 1
+                elif cls == 1:
+                    stale_apple += 1
+
+                textAppleCounting = "Fresh Apple: " + str(fresh_apple) + " | Stale Apple: " + str(stale_apple)
+                cv2.putText(frame, textAppleCounting, (10, 450), cv2.FONT_HERSHEY_COMPLEX_SMALL, 0.9, (36, 255, 12), 2)
                 cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 255, 0), 2)
                 cv2.putText(frame, label, (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.9, (36, 255, 12), 2)
 
@@ -210,7 +214,9 @@ def start_camera():
 
 @app.route('/stop_camera', methods=['POST'])
 def stop_camera():
-    global camera, is_running
+    global camera, is_running, fresh_apple, stale_apple
+    fresh_apple = 0
+    stale_apple = 0
     with lock:
         if camera is not None and camera.isOpened():
             camera.release()
