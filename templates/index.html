@@ -55,7 +55,8 @@
             padding: 60px 0;
         }
 
-        .smooth>.smooth-link:hover, .nav-item>.nav-link:hover {
+        .smooth>.smooth-link:hover,
+        .nav-item>.nav-link:hover {
             color: #45CBC8 !important;
         }
     </style>
@@ -127,13 +128,15 @@
                         Apple Quality Detection with Automatic Counting
                     </h6>
                     <p>
-                        Web kami merupakan solusi inovatif berbasis machine learning yang dirancang untuk otomatisasi
-                        penghitungan dan inspeksi kualitas buah apel.Website kami bertujuan untuk mengatasi masalah yang
-                        dihadapi oleh industri apel di Indonesia, terkait dengan penghitungan manual dan kontrol
-                        kualitas yang sering kali tidak akurat dan tidak konsisten.
+                        Merupakan aplikasi berbasis web yang mengadopsi teknologi <b>Deep Learning</b>
+                        khususnya domain <b>Computer Vision</b>. Aplikasi <b>AQUADATING</b> bertujuan
+                        untuk mendeteksi kualitas dan menghitung buah apel secara <i>realtime</i>. Aplikasi ini
+                        dirancang
+                        untuk membantu industri buah apel dalam memastikan kualitas yang optimal dan efisien
+                        dalam proses penghitungan dan sortir.
                     </p>
                     <img src="{{ url_for('static', filename='assets/imgs/about.jpg') }}" alt=""
-                        class="w-100 mt-3 shadow-sm">
+                        class="w-100 mt-2 shadow-sm">
                 </div>
                 <div class="col-md-6 pl-md-5">
                     <div class="row">
@@ -147,19 +150,24 @@
                         </div>
                         <div class="col-12 mt-4">
                             <p>
-                                Indonesia, dengan iklim tropis dan tanah yang subur, adalah lokasi yang sempurna untuk
-                                pertanian, termasuk penanaman apel yang umumnya memerlukan iklim sejuk. Daerah seperti
-                                Malang, Pasuruan, Magetan, dan Batu menjadi pusat produksi, dengan hasil panen yang
-                                berlimpah digunakan untuk berbagai produk olahan apel.
+                                Indonesia dengan iklim tropis dan tanah yang subur merupakan negara
+                                yang ideal untuk menanam berbagai jenis tanaman. Salah satunya adalah
+                                buah apel yang biasanya tumbuh di daerah beriklim sejuk seperti dataran
+                                tinggi dan pegunungan. Berdasarkan data Badan Pusat Statistika (BPS)
+                                Tahun 2022, produksi apel di Indonesia mencapai 523.596 ton, dengan
+                                produksi terbesar terjadi diprovinsi Jawa Timur. Hasil produksi yang
+                                melimpah ini dimanfaatkan untuk berbagai produk olahan dari buah apel.
+                                Sehingga pengelolaan hasil panen buah apel membutuhkan kualitas buah
+                                yang baik agar produk olahan juga memiliki kualitas yang terjamin.
                             </p>
                             <p>
-                                Dalam industri apel, terdapat tantangan dalam penghitungan dan pengendalian kualitas
-                                buah. Pencatatan manual seringkali tidak akurat dan tidak efisien, menyebabkan
-                                pemborosan dan produk yang tidak konsisten. Untuk mengatasi hal ini, diperlukan
-                                otomatisasi dalam proses penghitungan dan inspeksi kualitas, yang dapat memberikan data
-                                real-time dan meningkatkan efisiensi. Otomatisasi ini juga dapat mengurangi kebutuhan
-                                tenaga kerja dan biaya produksi, memastikan hanya apel berkualitas tinggi yang diproses
-                                lebih lanjut.
+                                Metode konvensional yang saat digunakan yaitu melakukan pensortiran
+                                buah apel dengan penglihatan manusia berdasarkan bentuk fisik.
+                                Namun, metode ini masih memiliki beberapa kekurangan yaitu proses
+                                pencatatan secara manual sering kali menghasilkan penghitungan yang
+                                tidak akurat bahkan dapat menyebabkan pemborosan biaya tenaga kerja
+                                yang tinggi. Hal ini dapat menyebabkan ketidakpuasan dan menurunkan
+                                loyalitas pelanggan produksi buah apel.
                             </p>
                         </div>
                     </div>
@@ -173,38 +181,53 @@
     <section class="section" id="service">
         <div class="container">
             <h6 class="section-title text-center">Our Service</h6>
-            <h6 class="section-subtitle text-center mb-5 pb-3">AQUADATING merupakan model machine learning yang dapat
-                menghitung jumlah dan inspeksi kualitas apel. Solusi ini akan dirancang untuk menghasilkan
-                output di atas dengan cara mengenali citra buah apel dari input data user. Solusi ini dibuat untuk
-                menggantikan proses manual yang selama ini dilakukan. <br>AQUADATING menyediakan dua fitur utama yaitu
-                Quality Detection dan Automatic Counting.
+            <h6 class="section-subtitle text-justify mb-5 pb-3">
+                <b>AQUADATING</b> merupakan model machine learning yang dapat mendeteksi kualitas
+                buah apel (<b>Fresh Apple / Stale Apple</b>) dan menghitung jumlahnya.
+                Solusi ini dirancang untuk menghasilkan output di atas dengan cara
+                mengenali citra buah apel dari input data oleh pengguna. Solusi ini dibuat
+                untuk menggantikan proses manual yang selama ini dilakukan.
+                <b>AQUADATING</b> menyediakan tiga fitur utama yaitu <b>Image Detection</b>,
+                <b>Real-time Detection</b> dan <b>Automatic Counting</b>.
             </h6>
 
             <div class="row">
-                <div class="col-md-6">
-                    <div class="card mb-6 mb-md-0">
+                <div class="col-lg-4 col-md-6 col-12">
+                    <div class="card mb-4 mb-lg-0 h-100">
                         <div class="card-body">
                             <small class="text-primary font-weight-bold">01</small>
-                            <h5 class="card-title mt-3"> Quality Detection </h5>
+                            <h5 class="card-title mt-3">Image Detection</h5>
                             <p class="mb-0">
-                                Fitur AQUADATING yang bertujuan untuk memastikan kualitas apel yang
-                                diproses. Dengan menggunakan teknologi machine learning, sistem ini menganalisis
-                                gambar apel yang diunggah pengguna untuk mendeteksi kualitas setiap apel secara
-                                real-time
+                                Fitur <b>AQUADATING</b> yang menggunakan teknologi machine learning
+                                untuk menganalisis gambar apel yang diunggah pengguna untuk mendeteksi
+                                kualitas buah apel dengan mengklasifikasikan kualitas buah.
                             </p>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6">
-                    <div class="card mb-6 mb-md-0">
+                <div class="col-lg-4 col-md-6 col-12">
+                    <div class="card mb-4 mb-lg-0 h-100">
                         <div class="card-body">
                             <small class="text-primary font-weight-bold">02</small>
+                            <h5 class="card-title mt-3">Real-time Detection</h5>
+                            <p class="mb-0">
+                                Fitur <b>AQUADATING</b> yang menggunakan teknologi machine learning
+                                untuk mendeteksi kualitas buah apel dengan mengklasifikasikan kualitas
+                                buah menggunakan live camera secara realtime.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 col-12">
+                    <div class="card mb-4 mb-lg-0 h-100">
+                        <div class="card-body">
+                            <small class="text-primary font-weight-bold">03</small>
                             <h5 class="card-title mt-3">Automatic Counting</h5>
                             <p class="mb-0">
-                                Fitur AQUADATING yang dirancang untuk menghitung jumlah apel secara
-                                otomatis dan akurat. Fitur ini menggantikan metode manual yang sering kali tidak
-                                akurat dan memakan waktu.sehingga hasil pemeriksaan
-                                dapat diterima oleh user dalam waktu yang lebih cepat
+                                Fitur <b>AQUADATING</b> yang dirancang untuk menghitung jumlah apel secara
+                                otomatis dan akurat. Fitur ini menggantikan metode manual yang sering kali
+                                tidak akurat dan memakan waktu. Sehingga hasil pemeriksaan
+                                dapat diterima oleh user dalam waktu yang lebih cepat.
                             </p>
                         </div>
                     </div>
