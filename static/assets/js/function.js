@@ -1,7 +1,15 @@
 $(document).ready(function () {
-    stopCamera()
+    newLiveFeed()
     let text = ""
     let downloadImgText = ""
+
+    function newLiveFeed() {
+        $('#videoLiveFeed').empty();
+        let htmlLiveFeed = document.getElementById('video-feed1').cloneNode(true);
+        htmlLiveFeed.id = "video-feed";
+        document.getElementById('videoLiveFeed').appendChild(htmlLiveFeed);
+        $('#video-feed').removeClass('hidden');
+    }
 
     $("#btnDownloadConnect").click(function (e) {
         e.preventDefault();
@@ -41,7 +49,7 @@ $(document).ready(function () {
                     var images = data['img_results']
                     images.forEach(imagePathController);
                     // Apple Counting
-                    text += "<div class='col-md-6'><div class='ml-2'><p>Jumlah Gambar: " + data['n_images'] + "</p><p>Jumlah Fresh Apple: " + data['fa_apple'] + "</p><p>Jumlah Stale Apple: " + data['sa_apple'] + "</p><p>Total Apple: " + data['n_apple'] + "</p> <form id='formDownloadPred' action='{{ url_for('predict_download') }}' method='post'>" + downloadImgText + "<button class='btn btn-success' type='submit'>Download Prediction Results</button></form></div></div>"
+                    text += "<div class='col-md-6'><div class='ml-2'><p>Jumlah Gambar: " + data['n_images'] + "</p><p>Jumlah Fresh Apple: " + data['fa_apple'] + "</p><p>Jumlah Stale Apple: " + data['sa_apple'] + "</p><p>Total Apple: " + data['n_apple'] + "</p> <form id='formDownloadPred' action='/predict_download' method='post'>" + downloadImgText + "<button class='btn btn-success' type='submit'>Download Prediction Results</button></form></div></div>"
                     // Write text to modal
                     domModal.innerHTML = text;
                     $("#btnImgSubmit").addClass("hidden");
@@ -96,11 +104,7 @@ $(document).ready(function () {
         fetch('/stop_camera', { method: 'POST' })
             .then(response => {
                 if (response.ok) {
-                    $('#videoLiveFeed').empty();
-                    let htmlLiveFeed = document.getElementById('video-feed1').cloneNode(true);
-                    htmlLiveFeed.id = "video-feed";
-                    document.getElementById('videoLiveFeed').appendChild(htmlLiveFeed);
-                    $('#video-feed').removeClass('hidden');
+                    newLiveFeed();
                 } else {
                     alert('Failed to stop camera.');
                 }

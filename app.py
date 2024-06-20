@@ -12,8 +12,6 @@ app.static_folder = 'static'
 
 # Load the YOLOv8 model
 model = YOLO(r'best.pt')
-fresh_apple = 0
-stale_apple = 0
 
 camera = None  #  camera globally
 lock = threading.Lock()  # Lock to handle camera access
@@ -21,6 +19,7 @@ is_running = False  # Flag to control the camera
 
 @app.route("/")
 def home():
+    stop_camera()
     return render_template("index.html")
 
 # for image detection
@@ -163,7 +162,7 @@ def video_feed():
 
 #fungsi deteksi camera real time 
 def gen_frames():
-    global camera, is_running, fresh_apple, stale_apple
+    global camera, is_running
     while is_running:
         with lock:
             if camera is None or not camera.isOpened():
@@ -172,6 +171,8 @@ def gen_frames():
         if not success:
             continue
         else:
+            fresh_apple = 0
+            stale_apple = 0
             # Perform object detection
             results = model(frame)
             detections = results[0].boxes  # Access the detections
@@ -191,7 +192,7 @@ def gen_frames():
                 textAppleCounting = "Fresh Apple: " + str(fresh_apple) + " | Stale Apple: " + str(stale_apple)
                 cv2.putText(frame, textAppleCounting, (10, 450), cv2.FONT_HERSHEY_COMPLEX_SMALL, 0.9, (36, 255, 12), 2)
                 cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 255, 0), 2)
-                cv2.putText(frame, label, (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.9, (36, 255, 12), 2)
+                cv2.putText(frame, label, (x1 + 10, y1 + 30), cv2.FONT_HERSHEY_SIMPLEX, 0.9, (36, 255, 12), 2)
 
             # Encode frame to JPEG
             ret, buffer = cv2.imencode('.jpg', frame)
@@ -214,9 +215,7 @@ def start_camera():
 
 @app.route('/stop_camera', methods=['POST'])
 def stop_camera():
-    global camera, is_running, fresh_apple, stale_apple
-    fresh_apple = 0
-    stale_apple = 0
+    global camera, is_running
     with lock:
         if camera is not None and camera.isOpened():
             camera.release()

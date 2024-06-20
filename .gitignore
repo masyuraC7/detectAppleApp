@@ -1,3 +1,3 @@
 venv/*
 static/imgpred/*
-storage/predict_apple.zip
+static/predict/predict_apple.zip
